@@ -14,20 +14,7 @@ class SaveData extends ChangeNotifier {
   final List<int> highs = [];
   int totalKills = 0, totalBosses = 0, totalTransformations = 0;
   final Set<String> achievements = {};
-  static const skinMilestones = [
-    0,
-    1500,
-    5000,
-    12000,
-    25000,
-    50000,
-    100000,
-    250000,
-    500000,
-    1000000,
-    2500000,
-    10000000
-  ];
+  static const skinMilestones = [0, 10000, 20000, 30000, 50000];
   void _readCounts(String key, Map<String, int> target) {
     final raw = _prefs?.getString(key);
     if (raw == null) return;
@@ -41,7 +28,8 @@ class SaveData extends ChangeNotifier {
     _prefs = await SharedPreferences.getInstance();
     best = _prefs!.getInt('pb_best') ?? 0;
     runs = _prefs!.getInt('pb_runs') ?? 0;
-    selectedSkin = _prefs!.getInt('pb_skin') ?? 0;
+    selectedSkin =
+        (_prefs!.getInt('pb_skin') ?? 0).clamp(0, skinMilestones.length - 1);
     sound = _prefs!.getBool('pb_sound') ?? true;
     music = _prefs!.getBool('pb_music') ?? true;
     soundVolume = (_prefs!.getDouble('pb_sound_volume') ?? .75).clamp(0.0, 1.0);

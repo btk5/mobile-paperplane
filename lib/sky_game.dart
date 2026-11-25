@@ -19,6 +19,7 @@ class SkyGame extends FlameGame {
   final Map<String, ui.Image> pixelSprites = {};
   final Map<Region, ui.Image> pixelBackgrounds = {};
   final List<ui.Image> pixelPlane = [];
+  final List<ui.Image> skinSprites = [];
   final Map<String, ui.Image> thaiSheets = {};
   static const thaiFrames = <String, int>{
     'plane_0': 4,
@@ -48,6 +49,9 @@ class SkyGame extends FlameGame {
     }
     for (var i = 0; i < 8; i++) {
       pixelPlane.add(await images.load('plane_$i.png'));
+    }
+    for (var i = 0; i < 5; i++) {
+      skinSprites.add(await images.load('skins/skin_$i.png'));
     }
     for (final name in thaiFrames.keys) {
       thaiSheets[name] = await images.load('thailand/${name}_sheet.png');
@@ -547,6 +551,37 @@ class SkyGame extends FlameGame {
     canvas.restore();
   }
 
+  void _drawSkinTrail(Canvas canvas) {
+    final t = sceneTime;
+    final trail = switch (skinIndex.clamp(0, 4)) {
+      1 => const Color(0xffffcf62),
+      2 => const Color(0xff83e6ae),
+      3 => const Color(0xffa78bfa),
+      4 => const Color(0xffef8ee8),
+      _ => const Color(0xff8de7ff),
+    };
+    for (var i = 0; i < 4; i++) {
+      final x = -30.0 - i * 10.0;
+      final y = math.sin(t * 8 + i) * 4;
+      final size = skinIndex == 4 ? 4.0 : 3.0 + (i % 2);
+      canvas.drawRect(
+          Rect.fromCenter(center: Offset(x, y), width: size, height: size),
+          Paint()..color = trail.withValues(alpha: .55 - i * .09));
+    }
+    if (skinIndex == 2) {
+      canvas.drawRect(
+          Rect.fromCenter(
+              center: Offset(-42, 8 + math.sin(t * 7) * 5),
+              width: 7,
+              height: 3),
+          Paint()..color = const Color(0xffd6f6b7).withValues(alpha: .65));
+    } else if (skinIndex == 3) {
+      canvas.drawRect(
+          Rect.fromCenter(center: Offset(-40, -8), width: 5, height: 5),
+          Paint()..color = const Color(0xff75e7f6).withValues(alpha: .65));
+    }
+  }
+
   @override
   void render(Canvas canvas) {
     super.render(canvas);
@@ -690,10 +725,10 @@ class SkyGame extends FlameGame {
       paint.color = rules.power!.color.withValues(alpha: .5);
       canvas.drawCircle(Offset.zero, 33 + math.sin(sceneTime * 15) * 4, paint);
     }
-    if (rules.environment == Region.thailand &&
-        skinIndex == 0 &&
-        thaiSheets.containsKey('plane_0')) {
-      drawThaiFrame(canvas, 'plane_0', 0, 0, 64, 48);
+    _drawSkinTrail(canvas);
+    if (skinSprites.isNotEmpty) {
+      final safeSkin = skinIndex.clamp(0, skinSprites.length - 1);
+      drawPixel(canvas, skinSprites[safeSkin], 0, 0, 76, 76);
     } else if (pixelPlane.isNotEmpty) {
       final frame =
           crossing > 0 ? ((1 - crossing / .30) * 7).clamp(0, 7).floor() : 0;

@@ -589,39 +589,94 @@ class Encyclopedia extends StatelessWidget {
 class SkinsPage extends StatelessWidget {
   const SkinsPage({super.key});
   static const names = [
-    'Classic White',
-    'Notebook',
-    'Newspaper',
-    'Golden Origami',
-    'Thai Paper',
-    'Jade Festival',
-    'Crystal',
-    'Galaxy',
-    'Holographic',
-    'Rainbow',
-    'Cosmic Black',
-    'Singularity'
+    'Classic Skyfold',
+    'Golden Temple',
+    'Jade Wind',
+    'Arcane Crystal',
+    'Cosmic Voyager'
+  ];
+  static const descriptions = [
+    'Clean white paper with a cool sky edge.',
+    'Gold origami with Thai red-gold details.',
+    'Jade folds with a soft leaf-energy finish.',
+    'Purple crystal paper with cyan highlights.',
+    'Deep-space paper filled with tiny stars.',
   ];
   @override
   Widget build(BuildContext context) {
     final s = context.watch<SaveData>();
     return Scaffold(
-        appBar: AppBar(title: const Text('Paperplane Collection')),
-        body: ListView(children: [
-          for (int i = 0; i < names.length; i++)
-            ListTile(
-                leading: const Icon(Icons.send),
-                title: Text(names[i]),
-                subtitle: Text(s.skinUnlocked(i)
-                    ? 'Unlocked'
-                    : 'Reach ${SaveData.skinMilestones[i]} m'),
-                trailing: s.skinUnlocked(i)
-                    ? TextButton(
-                        onPressed: () => s.skin(i),
-                        child:
-                            Text(s.selectedSkin == i ? 'SELECTED' : 'SELECT'))
-                    : const Icon(Icons.lock))
-        ]));
+      appBar: AppBar(
+          title: const Text('PAPERPLANE COLLECTION',
+              style: TextStyle(
+                  fontFamily: 'monospace', fontWeight: FontWeight.w900))),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(14),
+        itemCount: names.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 10),
+        itemBuilder: (context, i) {
+          final unlocked = s.skinUnlocked(i);
+          final selected = s.selectedSkin == i;
+          return AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                  color: selected
+                      ? const Color(0xff243b62)
+                      : const Color(0xff172844),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      color: selected
+                          ? const Color(0xffffdc83)
+                          : const Color(0xff426485),
+                      width: selected ? 2 : 1)),
+              child: Row(children: [
+                Container(
+                    width: 86,
+                    height: 86,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff0d1930),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Image.asset('assets/images/skins/skin_$i.png',
+                        filterQuality: FilterQuality.none,
+                        fit: BoxFit.contain)),
+                const SizedBox(width: 14),
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Text(names[i],
+                          style: const TextStyle(
+                              fontFamily: 'monospace',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 16)),
+                      const SizedBox(height: 4),
+                      Text(descriptions[i],
+                          style: const TextStyle(
+                              fontSize: 12, color: Color(0xffbdd6e8))),
+                      const SizedBox(height: 6),
+                      Text(
+                          i == 0
+                              ? 'DEFAULT'
+                              : 'UNLOCK ${SaveData.skinMilestones[i]} m',
+                          style: TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 11,
+                              color: unlocked
+                                  ? const Color(0xffa9f5c8)
+                                  : const Color(0xffffbd9d))),
+                    ])),
+                const SizedBox(width: 8),
+                unlocked
+                    ? FilledButton(
+                        onPressed: selected ? null : () => s.skin(i),
+                        child: Text(selected ? 'ON' : 'USE'))
+                    : const Icon(Icons.lock_outline),
+              ]));
+        },
+      ),
+    );
   }
 }
 

@@ -1,0 +1,74 @@
+{
+  "thai_kite": {
+    "frameWidth": 48,
+    "frameHeight": 48,
+    "frames": 4,
+    "hitbox": {
+      "width": 31,
+      "height": 30
+    }
+  },
+  "golden_gecko": {
+    "frameWidth": 56,
+    "frameHeight": 40,
+    "frames": 4,
+    "hitbox": {
+      "width": 36,
+      "height": 25
+    }
+  },
+  "lantern_spirit": {
+    "frameWidth": 48,
+    "frameHeight": 56,
+    "frames": 4,
+    "hitbox": {
+      "width": 31,
+      "height": 35
+    }
+  },
+  "hornbill": {
+    "frameWidth": 64,
+    "frameHeight": 48,
+    "frames": 4,
+    "hitbox": {
+      "width": 41,
+      "height": 30
+    }
+  },
+  "orchid": {
+    "frameWidth": 64,
+    "frameHeight": 56,
+    "frames": 4,
+    "hitbox": {
+      "width": 41,
+      "height": 35
+    }
+  },
+  "naga": {
+    "frameWidth": 80,
+    "frameHeight": 56,
+    "frames": 6,
+    "hitbox": {
+      "width": 51,
+      "height": 35
+    }
+  },
+  "thunderbird": {
+    "frameWidth": 80,
+    "frameHeight": 64,
+    "frames": 6,
+    "hitbox": {
+      "width": 51,
+      "height": 40
+    }
+  },
+  "monsoon": {
+    "frameWidth": 160,
+    "frameHeight": 120,
+    "frames": 8,
+    "hitbox": {
+      "width": 102,
+      "height": 74
+    }
+  }
+}

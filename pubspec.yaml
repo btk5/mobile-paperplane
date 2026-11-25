@@ -1,0 +1,24 @@
+name: mobile_paperplane
+description: Paperbound Beyond the Sky - Flutter edition
+publish_to: none
+version: 2.0.0+2
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  flame: ^1.29.0
+  flame_audio: ^2.12.0
+  shared_preferences: ^2.5.3
+  provider: ^6.1.5
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/audio/
+    - assets/images/
+    - assets/images/thailand/
+    - assets/images/combo/
